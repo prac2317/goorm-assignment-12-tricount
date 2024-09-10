@@ -2,12 +2,14 @@ package com.example.tricount.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Settlement {
 
     private Long settlementNo;
@@ -16,9 +18,7 @@ public class Settlement {
     private Balance balance;
     private List<Expense> expenses;
 
-    public Settlement(String title, List<Member> participants, Balance balance) {
+    public Settlement(String title) {
         this.title = title;
-        this.participants = participants;
-        this.balance = balance;
     }
 }

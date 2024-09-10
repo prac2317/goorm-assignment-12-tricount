@@ -53,7 +53,7 @@ public class MemberRepository {
 
         try {
             Map<String, Object> param = Map.of("userNo", userNo);
-            Member member = template.queryForObject(sql, param, itemRowMapper());
+            Member member = template.queryForObject(sql, param, rowMapper());
             return Optional.of(member);
         } catch(EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -79,7 +79,7 @@ public class MemberRepository {
         template.update(sql, param);
     }
 
-    private RowMapper<Member> itemRowMapper() {
+    private RowMapper<Member> rowMapper() {
         return BeanPropertyRowMapper.newInstance(Member.class); //camel 변환 지원
     }
 }
