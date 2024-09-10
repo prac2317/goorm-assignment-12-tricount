@@ -1,10 +1,14 @@
 package com.example.tricount.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Member {
 
     private Long userNo;
@@ -13,8 +17,8 @@ public class Member {
     private String password;
     private String nickname;
 
-    private Settlement settlement;
-    private Expense expense;
+    private List<Settlement> settlements;
+    private List<Expense> expenses;
 
     public Member(String userId, String password, String nickname) {
         this.userId = userId;
