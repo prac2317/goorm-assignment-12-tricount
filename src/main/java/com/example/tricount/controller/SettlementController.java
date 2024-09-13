@@ -23,14 +23,18 @@ public class SettlementController {
     private final SettlementService settlementService;
 
     @GetMapping
-    public ResponseEntity<List<SettlementGetDto>> getSettlementList(@RequestParam("userNo") Long userNo) {
+    public ResponseEntity<List<SettlementGetDto>> getSettlementList(
+            @RequestParam("userNo") Long userNo
+    ) {
         List<SettlementGetDto> settlementGetDtoList = settlementService.getSettlementList(userNo);
         return new ResponseEntity<>(settlementGetDtoList, HttpStatus.OK);
     }
 
     @ResponseBody
     @PostMapping("/create")
-    public ResponseEntity<SettlementGetDto> createAndJoinSettlement(@RequestBody SettlementCreateDto settlementCreateDto) {
+    public ResponseEntity<SettlementGetDto> createAndJoinSettlement(
+            @RequestBody SettlementCreateDto settlementCreateDto
+    ){
         Settlement settlement = settlementService.createSettlement(settlementCreateDto);
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header("Location", "/api/settlement/get/" + settlement.getSettlementNo())
@@ -39,7 +43,9 @@ public class SettlementController {
 
     @ResponseBody
     @GetMapping("/get/{settlementNo}")
-    public ResponseEntity<SettlementGetDto> getSettlement(@PathVariable("settlementNo") Long settlementNo) {
+    public ResponseEntity<SettlementGetDto> getSettlement(
+            @PathVariable("settlementNo") Long settlementNo
+    ) {
         SettlementGetDto settlementGetDto = settlementService.getSettlement(settlementNo);
         return new ResponseEntity<>(settlementGetDto, HttpStatus.OK);
     }
@@ -61,7 +67,7 @@ public class SettlementController {
     public ResponseEntity<Void> joinSettlement(
             @PathVariable("settlementNo") Long settlementNo,
             @RequestParam("userNo") Long userNo
-            ) {
+    ){
         settlementService.joinSettlement(settlementNo, userNo);
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header("Location", "/api/settlement/get/" + settlementNo)

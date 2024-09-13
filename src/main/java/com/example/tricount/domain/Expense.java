@@ -2,6 +2,7 @@ package com.example.tricount.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Expense {
 
     private Long expenseNo;
@@ -20,6 +22,12 @@ public class Expense {
     private BigDecimal amount;
     private LocalDate date;
     private Settlement settlement;
+
+//    public Expense(String title, BigDecimal amount, LocalDate date) {
+//        this.title = title;
+//        this.amount = amount;
+//        this.date = date;
+//    }
 
     public Expense(String title, Member paidBy, BigDecimal amount, LocalDate date, Settlement settlement) {
         this.title = title;

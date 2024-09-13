@@ -71,7 +71,6 @@ public class SettlementRepository {
             Settlement settlement = template.queryForObject(sql, param, rowMapper());
             List<Long> userNos = template.queryForList(memberSettlementSql, param, Long.class);
 
-
             List<Member> members = new ArrayList<>();
             for (Long userNo : userNos) {
                 Map<String, Object> userParam = Map.of("userNo", userNo);
@@ -79,8 +78,9 @@ public class SettlementRepository {
                 members.add(member);
             }
 
-            settlement.setParticipants(members);
+            //todo 여기 소속된 expense도 추가?
 
+            settlement.setParticipants(members);
             return Optional.of(settlement);
         } catch(EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -88,7 +88,7 @@ public class SettlementRepository {
 
     }
 
-//    todo: 테이블 관계 개념 공부하고 만들 것 - userNo 받아서 관련 정산들 갖고오기
+
     public List<Settlement> findByUserNo(Long userNo) {
         String memberSettlementSql = "select settlement_no from member_settlement where user_no = :userNo";
         Map<String, Object> param = Map.of("userNo", userNo);

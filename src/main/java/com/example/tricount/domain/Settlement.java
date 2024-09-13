@@ -17,7 +17,7 @@ public class Settlement {
     private String title;
     private List<Member> participants = new ArrayList<>();
     private Balance balance;
-    private List<Expense> expenses = new ArrayList<>();
+//    private List<Expense> expenses = new ArrayList<>();
 
     public Settlement(String title) {
         this.title = title;

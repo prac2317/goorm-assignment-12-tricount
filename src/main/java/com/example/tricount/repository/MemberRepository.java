@@ -50,6 +50,7 @@ public class MemberRepository {
 
     public Optional<Member> findById(Long userNo) {
         String sql = "select user_no, user_id, password, nickname from member where user_no = :userNo";
+        // Todo expense와의 관계,settlement와의 관계 추가 필요
 
         try {
             Map<String, Object> param = Map.of("userNo", userNo);

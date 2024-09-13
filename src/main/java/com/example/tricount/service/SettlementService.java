@@ -21,6 +21,8 @@ import java.util.List;
 @Service
 public class SettlementService {
 
+    // todo 전달받은 key값들 실제로 있는지 확인
+
     private final SettlementRepository settlementRepository;
     private final MemberRepository memberRepository;
 
@@ -56,13 +58,12 @@ public class SettlementService {
         }
 
         settlement.setParticipants(participants);
-
         return settlementRepository.save(settlement);
     }
 
+
     public SettlementGetDto getSettlement(Long settlementNo) {
         Settlement settlement = settlementRepository.findById(settlementNo).get();
-
         SettlementGetDto settlementGetDto = convertToSettlementGetDto(settlement);
         return settlementGetDto;
     }
@@ -93,16 +94,16 @@ public class SettlementService {
         settlementGetDto.setParticipants(participants);
 
         // Expenses 변환
-        List<SettlementGetExpenseDto> expenses = new ArrayList<>();
-        for (Expense expense : settlement.getExpenses()) {
-            SettlementGetExpenseDto expenseDto = new SettlementGetExpenseDto();
-            expenseDto.setTitle(expense.getTitle());
-            expenseDto.setPaidBy(expense.getPaidBy());
-            expenseDto.setAmount(expense.getAmount());
-            expenseDto.setDate(expense.getDate());
-            expenses.add(expenseDto);
-        }
-        settlementGetDto.setExpenses(expenses);
+//        List<SettlementGetExpenseDto> expenses = new ArrayList<>();
+//        for (Expense expense : settlement.getExpenses()) {
+//            SettlementGetExpenseDto expenseDto = new SettlementGetExpenseDto();
+//            expenseDto.setTitle(expense.getTitle());
+//            expenseDto.setPaidBy(expense.getPaidBy());
+//            expenseDto.setAmount(expense.getAmount());
+//            expenseDto.setDate(expense.getDate());
+//            expenses.add(expenseDto);
+//        }
+//        settlementGetDto.setExpenses(expenses);
         return settlementGetDto;
     }
 }
