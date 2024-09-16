@@ -15,8 +15,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-// 연습용으로 만들어 본 것.. 나중에 지우기!
-
 @Slf4j
 @Component
 public class TestDataInit {

@@ -61,6 +61,18 @@ public class MemberRepository {
         }
     }
 
+    public Optional<Member> findByLoginId(String userId) {
+        String sql = "select user_no, user_id, password, nickname from member where user_id=:userId";
+
+        try {
+            Map<String, Object> param = Map.of("userId", userId);
+            Member member = template.queryForObject(sql, param, rowMapper());
+            return Optional.of(member);
+        } catch(EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
     public void update(Long userNo, Member member) {
         String sql = "update member set user_id = :userId, password=:password , nickname=:nickname where user_no = :userNo";
 
