@@ -3,10 +3,16 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - uses: actions/checkout@v2
@@ -14,26 +20,39 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '17'
-      - name: build
-        run: ./gradlew clean build
 
-      - name: make zip
-        run: zip -qq -r ./tricount.zip .
+      - name: Setup Gradle
+        uses: gradle/action/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+        with:
+          gradle-version: '8.5'
+
+      - name: Build with Gradle 8.5
+        run: gradle clean bootJar
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
+      - name: Generate deployment package
+        run: |
+          mkdir -p workspace
+          cp appspec.yml workspace/
+          cp build/libs/*.jar workspace/
+          cd workspace && zip -r integrated-work *
+          cd ../ && mkdir -p deploy
+          mv workspace/integrated-work.zip deploy/Tricount.zip
+        shell: bash
+
       - name: Upload to S3
-        run: aws s3 cp ./tricount.zip s3://tricount-bucket/tricount.zip
+        run: aws s3 cp --region ap-northeast-2 ./deploy/Tricount.zip s3://$S3_BUCKET_NAME/Tricount.zip
 
       - name: Code deploy
-        run: aws deploy create-deployment --application-name tricount-codeDeploy
-          --deployment-config-name CodeDeployDefault.OneAtATime
-          --deployment-group-name group1
-          --s3-location bucket=tricount-bucket,bundleType=zip,key=tricount.zip
+        run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name $CODE_DEPLOY_GROUP_NAME
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=Tricount.zip
 
 
