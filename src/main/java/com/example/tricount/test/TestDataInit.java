@@ -30,7 +30,7 @@ public class TestDataInit {
 
     @EventListener(ApplicationReadyEvent.class)
     public void initData() {
-        log.info("test data init");
+//        log.info("test data init");
 //        Member member1 = memberRepository.save(new Member("member1", "password1", "nickname1"));
 //        Member member2 = memberRepository.save(new Member("member2", "password2", "nickname2"));
 //        Member member3 = memberRepository.save(new Member("member3", "password3", "nickname3"));
